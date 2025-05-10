@@ -8,26 +8,26 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '成長筆記', link: '/2025-05-11-about-this-blog' }
     ],
 
     sidebar: [
       {
-        text: 'Examples',
+        text: '成長筆記',
+        collapsed: true,
         items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
+          { text: '序', link: '/2025-05-11-about-this-blog' },
         ]
       }
     ],
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/ericcai0814' },
-      { icon: 'linkedin', link: 'https://www.linkedin.com/in/eric-cai-0814/' },
-      { icon: 'instagram', link: 'https://www.instagram.com/ericcai0814/' },
-      { icon: 'facebook', link: 'https://www.facebook.com/ericcai0814/' },
-      { icon: 'discord', link: 'https://discord.gg/ericcai0814' },
-      { icon: 'cake', link: 'https://www.cakeresume.com/eric-cai' },
+      // { icon: 'linkedin', link: 'https://www.linkedin.com/in/eric-cai-0814/' },
+      // { icon: 'instagram', link: 'https://www.instagram.com/ericcai0814/' },
+      // { icon: 'facebook', link: 'https://www.facebook.com/ericcai0814/' },
+      // { icon: 'discord', link: 'https://discord.gg/ericcai0814' },
+      // { icon: 'cake', link: 'https://www.cakeresume.com/eric-cai' },
     ]
   }
 })
