@@ -19,10 +19,10 @@ export default defineConfig({
         
       },
       {
-        text: '成長筆記',
+        text: 'React 筆記',
         collapsed: true,
         items: [
-          { text: '序', link: '/2025-10-08-about-this-blog' },
+          { text: '基本元件', link: '/2025-10-08-react-basic-component' },
         ]
       }
     ],
