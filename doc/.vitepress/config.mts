@@ -8,15 +8,21 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: '成長筆記', link: '/2025-05-11-about-this-blog' }
+      { text: '成長筆記', link: '/2025-10-08-about-this-blog' }
     ],
 
     sidebar: [
       {
+        text: '序',
+        collapsed: false,
+        link: '/2025-10-08-about-this-blog'
+        
+      },
+      {
         text: '成長筆記',
         collapsed: true,
         items: [
-          { text: '序', link: '/2025-05-11-about-this-blog' },
+          { text: '序', link: '/2025-10-08-about-this-blog' },
         ]
       }
     ],
