@@ -2,7 +2,7 @@
 title: react - 基本元件
 date: 2025-10-08T16:00:00.000+00:00
 lang: zh-tw
-lastUpdated: 2026-10-08
+lastUpdated: 2025-10-08
 duration: 10min
 ---
 
