@@ -19,10 +19,17 @@ export default defineConfig({
         
       },
       {
-        text: 'React 筆記',
+        text: 'React',
         collapsed: true,
         items: [
           { text: '基本元件', link: '/2025-10-08-react-basic-component' },
+        ]
+      },
+      {
+        text: 'JavaScript',
+        collapsed: true,
+        items: [
+          { text: 'pass by value 、 pass by reference 還是 pass by sharing', link: '/2025-10-11-javascript-pass-by-value-pass-by-reference-or-pass-by-sharing' },
         ]
       }
     ],
