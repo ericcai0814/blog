@@ -31,6 +31,13 @@ export default defineConfig({
         items: [
           { text: 'pass by value 、 pass by reference 還是 pass by sharing', link: '/2025-10-11-javascript-pass-by-value-pass-by-reference-or-pass-by-sharing' },
         ]
+      },
+      {
+        text: 'Shell',
+        collapsed: true,
+        items: [
+          { text: 'Shell 變數作用域與狀態管理', link: '/2026-02-06-shell-variable-scope-and-state-management' },
+        ]
       }
     ],
 
