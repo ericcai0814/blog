@@ -24,22 +24,20 @@ duration: 20min
 
 ### 問題：每次執行都是新的 process
 
-像 hook 腳本這種東西，每次被觸發都會產生一個全新的 process ，有自己的 PID ，執行完就結束，記憶體全部歸零。下次再觸發？又是一個新的 PID ，上一次的狀態完全不存在。
+像 hook 腳本這種東西，每次被觸發都會產生一個全新的 process ，有自己的 PID ，執行完記憶體全部歸零。下次再觸發又是一個新的 PID。
 
 ```
 執行 #1          執行 #2          執行 #3
 ┌──────┐        ┌──────┐        ┌──────┐
-│ PID  │  死亡  │ PID  │  死亡  │ PID  │
+│ PID  │        │ PID  │        │ PID  │
 │ 4821 │ ────→  │ 5033 │ ────→  │ 5197 │
-│ 記憶=0│       │ 記憶=0│       │ 記憶=0│
+│ 記憶=0│        │記憶=0│        │ 記憶=0│
 └──────┘        └──────┘        └──────┘
 ```
 
-這在寫一般的 function 時不會有感覺，因為應用程式是常駐的，變數自然就活著。但 hook 腳本不一樣，它每次都是從零開始。
-
 ### 解法：讓檔案系統當「外部記憶體」
 
-既然 process 本身沒辦法保留狀態，那就把狀態存到 process 之外 — 檔案系統。每次腳本啟動時做一個 **讀取 → 修改 → 寫回**（ read-modify-write ）的循環：
+既然 process 本身沒辦法保留狀態，那就把狀態存到 process 之外的檔案系統。每次腳本啟動時做一個 **讀取 → 修改 → 寫回**（ read-modify-write ）的循環：
 
 ```
 執行 #1          執行 #2          執行 #3
@@ -72,16 +70,14 @@ count=$((count + 1))
 echo "$count" > "$STATE_FILE"
 ```
 
-這個 pattern 在 Unix 的世界裡非常常見。process 執行完就結束，不會留下任何狀態，但寫進檔案系統的東西不受 process 生命週期影響，下次啟動時讀回來就能接續上一次的結果。
-
 ### 為什麼不用其他方案？
 
-| 方案 | 問題 |
-| --- | --- |
-| 環境變數 | 單向傳遞（父→子）， child process 改了也不會回傳給 parent process |
-| 資料庫 | 殺雞焉用牛刀，只是記一個數字不需要 ACID |
-| daemon | 太重了， hook 腳本只需要「記住一個值」 |
-| **檔案系統** | **零依賴、天然持久化、`/tmp` 重開機自動清理** |
+| 方案         | 問題                                                              |
+| ------------ | ----------------------------------------------------------------- |
+| 環境變數     | 單向傳遞（父→子）， child process 改了也不會回傳給 parent process |
+| 資料庫       | 殺雞焉用牛刀，只是記一個數字不需要 ACID                           |
+| daemon       | 太重了， hook 腳本只需要「記住一個值」                            |
+| **檔案系統** | **零依賴、天然持久化、`/tmp` 重開機自動清理**                     |
 
 ### Race Condition 的問題
 
@@ -94,7 +90,7 @@ process A: 寫回 → count=6
                 process B: 寫回 → count=6  ← 少算了，應該是 7
 ```
 
-A 和 B 都讀到 5 ，各自加 1 寫回 6 ，但正確答案應該是 7。這就是經典的 race condition。
+A 和 B 都讀到 5 ，各自加 1 寫回 6 ，但正確答案應該是 7。
 
 在 Claude Code hooks 的場景下， hooks 是**同步序列執行**的，不會併發，所以不用擔心。但如果你的腳本有可能被同時觸發（例如多個 terminal 同時跑），就需要用 `flock` 來做檔案鎖：
 
@@ -202,13 +198,13 @@ echo $MY_DB   # （空的）— 當前 shell 完全不受影響
 
 ```
 ┌─────────────────────────────────────────────────┐
-│ Layer 4: 系統級 (/etc/environment, /etc/profile) │
+│ Layer 4: 系統級 (/etc/environment, /etc/profile)  │
 │ ┌─────────────────────────────────────────────┐ │
-│ │ Layer 3: 使用者級 (~/.zshrc, ~/.zprofile)   │ │
+│ │ Layer 3: 使用者級 (~/.zshrc, ~/.zprofile)     │ │
 │ │ ┌─────────────────────────────────────────┐ │ │
 │ │ │ Layer 2: Shell session 級 (export)      │ │ │
 │ │ │ ┌─────────────────────────────────────┐ │ │ │
-│ │ │ │ Layer 1: 腳本/child process級 (local var)  │ │ │ │
+│ │ │ │ Layer 1: 腳本/child process級        │ │ │ │
 │ │ │ └─────────────────────────────────────┘ │ │ │
 │ │ └─────────────────────────────────────────┘ │ │
 │ └─────────────────────────────────────────────┘ │
@@ -397,12 +393,12 @@ Login Shell                    Non-login Shell
 
 ### 各檔案的職責
 
-| 檔案 | 何時載入 | 適合放什麼 |
-| --- | --- | --- |
-| `~/.zshenv` | **每次**（包含腳本） | `PATH` 等所有環境都需要的變數 |
-| `~/.zprofile` | 只有 login shell | 一次性初始化（如 `brew shellenv`） |
-| `~/.zshrc` | interactive shell | 別名、prompt、補全、主題 |
-| `~/.zlogin` | login shell 最後 | 登入歡迎訊息 |
+| 檔案          | 何時載入             | 適合放什麼                         |
+| ------------- | -------------------- | ---------------------------------- |
+| `~/.zshenv`   | **每次**（包含腳本） | `PATH` 等所有環境都需要的變數      |
+| `~/.zprofile` | 只有 login shell     | 一次性初始化（如 `brew shellenv`） |
+| `~/.zshrc`    | interactive shell    | 別名、prompt、補全、主題           |
+| `~/.zlogin`   | login shell 最後     | 登入歡迎訊息                       |
 
 值得注意的是，`~/.zshenv` 是**唯一保證**在所有 zsh process 中都會被載入的檔案，不管是 interactive、non-interactive、login 還是 non-login。大部分教學都叫你把東西放 `~/.zshrc`，但如果你的變數需要在 non-interactive 環境（cron、IDE 啟動的 child process 等）也生效，就只有 `~/.zshenv` 才靠得住。
 
@@ -435,15 +431,15 @@ zsh -l
 
 ## `.zshrc` 讀不到的場景
 
-| 場景 | 能讀到？ | 原因 |
-| --- | --- | --- |
-| 終端機直接執行 | O | interactive shell 會 source `.zshrc` |
-| 從終端機啟動的 child process | O | 繼承 parent process 的 environ （前提是有 `export`） |
-| cron job | X | 非 interactive ，不載入 `.zshrc` |
-| launchd daemon | X | 非 interactive ，不載入 `.zshrc` |
-| SSH 非互動命令 | X | 非 interactive shell |
-| IDE 啟動的終端機 | △ | 取決於 IDE 怎麼啟動 shell |
-| Claude Code hooks | △ | 取決於 Claude Code 的啟動方式 |
+| 場景                         | 能讀到？ | 原因                                                 |
+| ---------------------------- | -------- | ---------------------------------------------------- |
+| 終端機直接執行               | O        | interactive shell 會 source `.zshrc`                 |
+| 從終端機啟動的 child process | O        | 繼承 parent process 的 environ （前提是有 `export`） |
+| cron job                     | X        | 非 interactive ，不載入 `.zshrc`                     |
+| launchd daemon               | X        | 非 interactive ，不載入 `.zshrc`                     |
+| SSH 非互動命令               | X        | 非 interactive shell                                 |
+| IDE 啟動的終端機             | △        | 取決於 IDE 怎麼啟動 shell                            |
+| Claude Code hooks            | △        | 取決於 Claude Code 的啟動方式                        |
 
 規則就一條：**`.zshrc` 只有在 interactive shell 才會被載入**。
 
