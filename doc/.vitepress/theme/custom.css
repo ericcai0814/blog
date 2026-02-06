@@ -1,0 +1,60 @@
+:root {
+  --vp-c-brand-1: #555;
+  --vp-c-brand-2: #888;
+  --vp-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+}
+
+.VPDoc .container {
+  max-width: 800px !important;
+}
+
+/* 隱藏側邊欄（如果想要全寬 blog 風格） */
+
+.VPSidebar {
+  display: none !important;
+}
+
+.VPDoc:not(.has-sidebar) .content {
+  max-width: 800px !important;
+  margin: 0 auto;
+}
+
+/* 隱藏右側大綱欄（文章內的 TOC） */
+/* .VPDocAside {
+  display: none !important;
+} */
+
+/* 導覽列簡化 */
+.VPNavBar .title {
+  font-weight: 400;
+}
+
+/* 加大段落行高，閱讀更舒適 */
+.vp-doc p {
+  line-height: 1.8;
+}
+
+/* 標題與段落間距 */
+.vp-doc h2 {
+  margin-top: 2.5rem;
+  padding-top: 1rem;
+}
+
+.vp-doc h3 {
+  margin-top: 2rem;
+}
+
+/* code block 樣式微調 */
+.vp-doc div[class*='language-'] {
+  border-radius: 8px;
+}
+
+/* 連結底線改為 hover 才出現 */
+.vp-doc a {
+  text-decoration: none;
+}
+
+.vp-doc a:hover {
+  text-decoration: underline;
+}
