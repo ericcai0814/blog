@@ -11,7 +11,7 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap' }],
-    ['link', { rel: 'alternate', type: 'application/atom+xml', title: 'Eric\'s Blog', href: '/blog/feed.xml' }],
+    ['link', { rel: 'alternate', type: 'application/atom+xml', title: 'Eric\'s Blog', href: '/feed.xml' }],
     ['meta', { name: 'theme-color', content: '#ffffff' }],
     ['meta', { name: 'theme-color', content: '#121212', media: '(prefers-color-scheme: dark)' }],
   ],
@@ -90,7 +90,7 @@ export default defineConfig({
         icon: {
           svg: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M6.18 15.64a2.18 2.18 0 0 1 2.18 2.18C8.36 19.01 7.38 20 6.18 20C4.98 20 4 19.01 4 17.82a2.18 2.18 0 0 1 2.18-2.18M4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93z"/></svg>',
         },
-        link: '/blog/feed.xml',
+        link: '/feed.xml',
       },
     ],
   },
