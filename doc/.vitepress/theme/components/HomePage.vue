@@ -1,14 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { data as posts } from '../../../posts.data'
-
-interface Post {
-  title: string
-  url: string
-  date: string
-  dateFormatted: string
-  duration?: string
-}
+import { data as posts, type Post } from '../../../posts.data'
 
 interface YearGroup {
   year: number
