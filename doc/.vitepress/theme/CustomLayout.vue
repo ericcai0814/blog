@@ -2,6 +2,8 @@
 import DefaultTheme from 'vitepress/theme'
 import { useData } from 'vitepress'
 import ArticleHeader from './components/ArticleHeader.vue'
+import ReadingProgress from './components/ReadingProgress.vue'
+import Comments from './components/Comments.vue'
 
 const { Layout } = DefaultTheme
 const { frontmatter } = useData()
@@ -9,12 +11,20 @@ const { frontmatter } = useData()
 
 <template>
   <Layout>
+    <template #layout-top>
+      <ReadingProgress v-if="frontmatter.date" />
+    </template>
+
     <template #doc-before>
       <ArticleHeader
         v-if="frontmatter.date"
         :date="frontmatter.date"
         :duration="frontmatter.duration"
       />
+    </template>
+
+    <template #doc-after>
+      <Comments v-if="frontmatter.date" />
     </template>
 
     <template #layout-bottom>

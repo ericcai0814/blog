@@ -132,3 +132,16 @@
 .VPDocFooter .prev-next {
   border-top: 1px solid var(--vp-c-divider);
 }
+
+/* --- Medium Zoom --- */
+.medium-zoom-overlay {
+  z-index: 30;
+}
+
+.medium-zoom-image--opened {
+  z-index: 31;
+}
+
+.vp-doc img {
+  cursor: zoom-in;
+}
