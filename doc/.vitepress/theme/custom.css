@@ -1,60 +1,148 @@
+/* ===== antfu.me inspired minimal theme ===== */
+
+/* --- Light Mode Variables --- */
 :root {
   --vp-c-brand-1: #555;
   --vp-c-brand-2: #888;
-  --vp-font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+  --vp-c-brand-3: #aaa;
+  --vp-c-brand-soft: rgba(85, 85, 85, 0.12);
+
+  --vp-c-text-1: #2c3e50;
+  --vp-c-text-2: #6a7280;
+  --vp-c-text-3: #9ca3af;
+
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f9fafb;
+  --vp-c-bg-soft: #f3f4f6;
+
+  --vp-c-divider: #e5e7eb;
+  --vp-c-border: #e5e7eb;
+  --vp-c-gutter: #e5e7eb;
+
+  --vp-font-family-base: 'Inter', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, BlinkMacSystemFont, sans-serif;
   --vp-font-family-mono: 'JetBrains Mono', 'Fira Code', Menlo, Monaco, Consolas, monospace;
+
+  --vp-nav-height: 56px;
 }
 
-.VPDoc .container {
-  max-width: 800px !important;
+/* --- Dark Mode Variables --- */
+.dark {
+  --vp-c-brand-1: #bbb;
+  --vp-c-brand-2: #999;
+  --vp-c-brand-3: #777;
+  --vp-c-brand-soft: rgba(187, 187, 187, 0.12);
+
+  --vp-c-text-1: #d4d4d4;
+  --vp-c-text-2: #a1a1aa;
+  --vp-c-text-3: #71717a;
+
+  --vp-c-bg: #121212;
+  --vp-c-bg-alt: #1a1a1a;
+  --vp-c-bg-soft: #222222;
+
+  --vp-c-divider: #2e2e2e;
+  --vp-c-border: #2e2e2e;
+  --vp-c-gutter: #2e2e2e;
 }
 
-/* 隱藏側邊欄（如果想要全寬 blog 風格） */
-
+/* --- Sidebar: CSS hidden, config preserved for prev/next --- */
 .VPSidebar {
   display: none !important;
 }
 
-.VPDoc:not(.has-sidebar) .content {
-  max-width: 800px !important;
+/* --- Content area: centered, max-width 720px --- */
+.VPDoc:not(.has-sidebar) .content,
+.VPDoc .container {
+  max-width: 720px !important;
   margin: 0 auto;
 }
 
-/* 隱藏右側大綱欄（文章內的 TOC） */
-/* .VPDocAside {
-  display: none !important;
-} */
-
-/* 導覽列簡化 */
-.VPNavBar .title {
-  font-weight: 400;
-}
-
-/* 加大段落行高，閱讀更舒適 */
+/* --- Typography --- */
 .vp-doc p {
-  line-height: 1.8;
+  line-height: 1.85;
 }
 
-/* 標題與段落間距 */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3,
+.vp-doc h4 {
+  letter-spacing: -0.02em;
+}
+
 .vp-doc h2 {
   margin-top: 2.5rem;
   padding-top: 1rem;
+  border-top: none;
 }
 
 .vp-doc h3 {
   margin-top: 2rem;
 }
 
-/* code block 樣式微調 */
-.vp-doc div[class*='language-'] {
-  border-radius: 8px;
-}
-
-/* 連結底線改為 hover 才出現 */
+/* --- Links: dashed underline, solid on hover (antfu style) --- */
 .vp-doc a {
   text-decoration: none;
+  border-bottom: 1px dashed var(--vp-c-brand-1);
+  transition: border-bottom-style 0.2s ease;
 }
 
 .vp-doc a:hover {
-  text-decoration: underline;
+  border-bottom-style: solid;
+}
+
+/* Exclude anchor links and heading links from border */
+.vp-doc a.header-anchor,
+.vp-doc .VPDocFooter a {
+  border-bottom: none;
+}
+
+/* --- Code block --- */
+.vp-doc div[class*='language-'] {
+  border-radius: 6px;
+  border: 1px solid var(--vp-c-divider);
+}
+
+/* --- Inline code --- */
+.vp-doc :not(pre) > code {
+  background-color: var(--vp-c-bg-soft);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.9em;
+  color: var(--vp-c-text-1);
+}
+
+/* --- Blockquote --- */
+.vp-doc blockquote {
+  border-left: 2px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+  padding-left: 1rem;
+  margin-left: 0;
+}
+
+/* --- Nav --- */
+.VPNavBar .title {
+  font-weight: 400;
+  font-size: 15px;
+}
+
+/* --- Home hero: remove gradient --- */
+.VPHero .name .clip {
+  background: none !important;
+  -webkit-text-fill-color: var(--vp-c-text-1);
+  color: var(--vp-c-text-1);
+}
+
+/* --- Page layout: comfortable reading --- */
+.VPPage {
+  padding-bottom: 4rem;
+}
+
+/* --- Footer in doc page --- */
+.VPDocFooter .prev-next {
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+/* --- Smooth dark mode transition --- */
+:root {
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
