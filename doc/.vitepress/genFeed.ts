@@ -3,7 +3,7 @@ import { writeFileSync } from 'node:fs'
 import { Feed } from 'feed'
 import { createContentLoader, type SiteConfig } from 'vitepress'
 
-const hostname = 'https://ericcai0814.github.io/blog'
+const hostname = 'https://www.ericcai.me'
 
 export async function genFeed(config: SiteConfig): Promise<void> {
   const feed = new Feed({
