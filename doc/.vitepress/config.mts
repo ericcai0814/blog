@@ -1,11 +1,18 @@
 import { defineConfig } from 'vitepress'
 import { genFeed } from './genFeed'
 
+const hostname = 'https://erictree.me'
+
 export default defineConfig({
   title: 'Eric',
   description: '記錄技術探索與人生成長的點滴旅程',
+  lang: 'zh-TW',
   cleanUrls: true,
   lastUpdated: true,
+
+  sitemap: {
+    hostname,
+  },
 
   head: [
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
@@ -15,6 +22,36 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#ffffff' }],
     ['meta', { name: 'theme-color', content: '#121212', media: '(prefers-color-scheme: dark)' }],
   ],
+
+  transformPageData(pageData) {
+    const pageUrl = `${hostname}/${pageData.relativePath.replace(/(?:index)?\.md$/, '')}`
+    const title = pageData.frontmatter.title ?? pageData.title
+    const description = pageData.frontmatter.description ?? '記錄技術探索與人生成長的點滴旅程'
+    const isArticle = Boolean(pageData.frontmatter.date)
+
+    pageData.frontmatter.head ??= []
+    pageData.frontmatter.head.push(
+      ['link', { rel: 'canonical', href: pageUrl }],
+      ['meta', { property: 'og:title', content: title }],
+      ['meta', { property: 'og:description', content: description }],
+      ['meta', { property: 'og:url', content: pageUrl }],
+      ['meta', { property: 'og:type', content: isArticle ? 'article' : 'website' }],
+      ['meta', { property: 'og:site_name', content: 'Eric\'s Blog' }],
+      ['meta', { property: 'og:locale', content: 'zh_TW' }],
+      ['meta', { property: 'og:image', content: `${hostname}/og-image.png` }],
+      ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+      ['meta', { name: 'twitter:title', content: title }],
+      ['meta', { name: 'twitter:description', content: description }],
+      ['meta', { name: 'twitter:image', content: `${hostname}/og-image.png` }],
+    )
+
+    if (isArticle) {
+      pageData.frontmatter.head.push(
+        ['meta', { property: 'article:published_time', content: new Date(pageData.frontmatter.date).toISOString() }],
+        ['meta', { property: 'article:author', content: 'Eric' }],
+      )
+    }
+  },
 
   async buildEnd(siteConfig) {
     await genFeed(siteConfig)

@@ -1,5 +1,6 @@
 ---
 title: react - 基本元件
+description: React 元件的基本寫法、JSX 語法、props 傳遞與條件渲染，從零開始學習 React 元件開發。
 date: 2025-10-08T16:00:00.000+00:00
 lang: zh-tw
 lastUpdated: 2025-10-08

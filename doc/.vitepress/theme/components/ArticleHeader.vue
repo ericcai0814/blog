@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { formatDate } from '../utils'
+import { computed, onMounted, ref } from 'vue'
+import { formatDate, estimateReadingTime } from '../utils'
 
 const props = defineProps<{
   date: string
@@ -8,13 +8,22 @@ const props = defineProps<{
 }>()
 
 const formattedDate = computed(() => formatDate(props.date))
+
+const readingTime = ref(props.duration ?? '')
+
+onMounted(() => {
+  if (!props.duration) {
+    const content = document.querySelector('.vp-doc')?.textContent ?? ''
+    readingTime.value = estimateReadingTime(content)
+  }
+})
 </script>
 
 <template>
   <div class="article-header">
     <span class="date">{{ formattedDate }}</span>
-    <span v-if="duration" class="separator">&middot;</span>
-    <span v-if="duration" class="duration">{{ duration }}</span>
+    <span v-if="readingTime" class="separator">&middot;</span>
+    <span v-if="readingTime" class="duration">{{ readingTime }}</span>
   </div>
 </template>
 

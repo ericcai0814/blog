@@ -1,19 +1,19 @@
 import { createContentLoader } from 'vitepress'
-import { formatDate } from './.vitepress/theme/utils'
+import { formatDate, estimateReadingTime } from './.vitepress/theme/utils'
 
 export interface Post {
   title: string
   url: string
   date: string
   dateFormatted: string
-  duration?: string
+  duration: string
 }
 
 declare const data: Post[]
 export { data }
 
 export default createContentLoader('*.md', {
-  includeSrc: false,
+  includeSrc: true,
   transform(rawData) {
     return rawData
       .filter((page) => page.frontmatter.date)
@@ -28,7 +28,7 @@ export default createContentLoader('*.md', {
         url: page.url,
         date: page.frontmatter.date,
         dateFormatted: formatDate(page.frontmatter.date, false),
-        duration: page.frontmatter.duration,
+        duration: page.frontmatter.duration ?? estimateReadingTime(page.src ?? ''),
       }))
   },
 })
