@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { formatDate } from '../utils'
 
 const props = defineProps<{
   date: string
   duration?: string
 }>()
 
-const formattedDate = computed(() => {
-  const d = new Date(props.date)
-  return `${d.getFullYear()} 年 ${d.getMonth() + 1} 月 ${d.getDate()} 日`
-})
+const formattedDate = computed(() => formatDate(props.date))
 </script>
 
 <template>
@@ -30,9 +28,5 @@ const formattedDate = computed(() => {
   border-bottom: 1px solid var(--vp-c-divider);
   color: var(--vp-c-text-3);
   font-size: 0.9rem;
-}
-
-.separator {
-  color: var(--vp-c-text-3);
 }
 </style>

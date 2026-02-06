@@ -1,4 +1,5 @@
 import { createContentLoader } from 'vitepress'
+import { formatDate } from './.vitepress/theme/utils'
 
 export interface Post {
   title: string
@@ -22,15 +23,12 @@ export default createContentLoader('*.md', {
           new Date(a.frontmatter.date).getTime()
         )
       })
-      .map((page) => {
-        const d = new Date(page.frontmatter.date)
-        return {
-          title: page.frontmatter.title ?? '',
-          url: page.url,
-          date: page.frontmatter.date,
-          dateFormatted: `${d.getMonth() + 1} 月 ${d.getDate()} 日`,
-          duration: page.frontmatter.duration,
-        }
-      })
+      .map((page) => ({
+        title: page.frontmatter.title ?? '',
+        url: page.url,
+        date: page.frontmatter.date,
+        dateFormatted: formatDate(page.frontmatter.date, false),
+        duration: page.frontmatter.duration,
+      }))
   },
 })

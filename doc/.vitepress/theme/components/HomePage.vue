@@ -121,12 +121,17 @@ const groupedPosts = computed<YearGroup[]>(() => {
   padding: 0.5rem 0;
   text-decoration: none;
   border-bottom: none;
-  border-radius: 4px;
-  transition: color 0.2s ease;
 }
 
-.post-link:hover .post-title {
+.post-link:hover .post-title,
+.post-link:focus-visible .post-title {
   color: var(--vp-c-brand-1);
+}
+
+.post-link:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 .post-title {
