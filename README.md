@@ -1,3 +1,3 @@
 # blog
 
-記錄技術學習、生命成長
+Technical blog - learning notes on frontend, Vue.js, and AI-assisted development
