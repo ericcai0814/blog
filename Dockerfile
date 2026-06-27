@@ -25,4 +25,4 @@ COPY --from=builder /app/next-site ./
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "pnpm start -- --hostname 0.0.0.0 --port ${PORT:-3000}"]
+CMD ["sh", "-c", "pnpm exec next start --hostname 0.0.0.0 --port ${PORT:-3000}"]
