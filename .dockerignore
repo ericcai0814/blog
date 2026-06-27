@@ -1,0 +1,10 @@
+.git
+.DS_Store
+node_modules
+doc/.vitepress/cache
+doc/.vitepress/dist
+next-site/.next
+next-site/.velite
+next-site/.vercel
+next-site/.wrangler
+next-site/node_modules
