@@ -12,18 +12,18 @@ export function Nav({ locale }: { locale: Locale }) {
   const prefix = locale === "zh" ? "" : "/en"
 
   return (
-    <nav className="border-b border-border/40">
-      <div className="max-w-3xl mx-auto flex items-center justify-between px-6 py-5">
+    <nav className="border-b border-border/50">
+      <div className="mx-auto flex max-w-[720px] items-center justify-between px-6 py-5">
         <Link
           href={`${prefix}/`}
-          className="font-mono font-semibold tracking-tight text-foreground hover:text-brand transition-colors"
+          className="font-mono text-sm font-semibold text-foreground transition-colors hover:text-brand"
         >
           erictree.me
         </Link>
-        <div className="flex items-center gap-6 text-sm">
+        <div className="flex items-center gap-5 text-sm">
           <Link
             href={`${prefix}/blog`}
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
             {labels[locale].blog}
           </Link>

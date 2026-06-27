@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
+import { absoluteUrl, rssAlternates, siteConfig } from "@/lib/site";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,9 +15,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://erictree.me"),
-  title: { default: "Eric Tsai", template: "%s · Eric Tsai" },
-  description: "蔡樹鈞 Eric — 前端工程師,延伸到 spec-driven AI development。",
+  metadataBase: new URL(siteConfig.url),
+  title: { default: siteConfig.title, template: `%s · ${siteConfig.title}` },
+  description: siteConfig.description,
+  alternates: {
+    canonical: absoluteUrl("/"),
+    types: rssAlternates,
+  },
+  openGraph: {
+    title: siteConfig.title,
+    description:
+      "Frontend engineer extending into spec-driven AI development. Field notes on frontend, AI tooling, and shell.",
+    url: siteConfig.url,
+    siteName: "erictree.me",
+    locale: "zh_TW",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

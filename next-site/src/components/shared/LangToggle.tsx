@@ -16,7 +16,7 @@ export function LangToggle() {
   return (
     <Link
       href={targetHref}
-      className="font-mono text-sm text-muted-foreground hover:text-foreground transition-colors"
+      className="font-mono text-xs text-muted-foreground transition-colors hover:text-foreground"
       aria-label={isEn ? "切換到中文" : "Switch to English"}
     >
       {isEn ? "中" : "EN"}
